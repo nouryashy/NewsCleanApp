@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.count
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,12 +20,13 @@ class ArticlesViewModel @Inject constructor(
     ViewModel() {
 
 
-    var articles = getArticles().asLiveData()
 
+    var articles = getArticles().asLiveData()
 
     fun getArticles() = networkBoundResource(
         query = {
             getArticlesUseCase.articlesFromLocal()
+
         },
         fetch = {
             delay(2000)
@@ -33,7 +35,6 @@ class ArticlesViewModel @Inject constructor(
         saveFetchResult = { a ->
             getArticlesUseCase.deleteArticles()
             getArticlesUseCase.insertArticle(a.articles)
-
         }
     )
 

@@ -9,10 +9,11 @@ import com.bumptech.glide.Glide
 import com.example.domain.entity.Article
 import com.example.newscleanapp.databinding.ArticleItemListBinding
 
-class ArticlesAdapter( var listener: OnItemClickListener) :
+class ArticlesAdapter(var listener: OnItemClickListener) :
     androidx.recyclerview.widget.ListAdapter<Article, ArticlesAdapter.ViewHolder>(
         CategoryDiffCallback()
     ) {
+
     interface OnItemClickListener {
         fun onClicked(article: Article)
     }
@@ -34,13 +35,15 @@ class ArticlesAdapter( var listener: OnItemClickListener) :
     inner class ViewHolder(private val itemBinding: ArticleItemListBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(article: Article) {
-            itemBinding.articleNameTv.text = article.title
-            itemBinding.articleDesTv.text = article.description
+            itemBinding.apply {
+                articleNameTv.text = article.title
+                articleDesTv.text = article.description
+                root.setOnClickListener {
+                    listener!!.onClicked(article)
+                }
+            }
             Glide.with(itemBinding.root.context).load(article.urlToImage)
                 .into(itemBinding.articleIv)
-            itemBinding.root.setOnClickListener {
-                listener!!.onClicked(article)
-            }
         }
     }
 

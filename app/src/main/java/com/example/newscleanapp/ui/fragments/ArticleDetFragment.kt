@@ -34,6 +34,10 @@ class ArticleDetFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getUiDetData()
+    }
+
+    private fun getUiDetData() {
         val args: ArticleDetFragmentArgs by navArgs()
         articleTitle = args.articleTitle
         articleDes = args.articleDes
